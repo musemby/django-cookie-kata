@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,10 +24,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7gmtc$hw#3@+4yb^kd@hv%2$4+q%0ps1uwlrv_28u!d*kwt%-f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
+# auth
+AUTH_USER_MODEL = 'kata_auth.KataUser'
+DEFAULT_FROM_EMAIL = os.getenv('KATA_DEFAULT_FROM_EMAIL', '')
+KATA_HOST = os.getenv('KATA_HOST', 'http://localhost:7000')
+EMAIL_VERIFICATION_LINK = os.getenv('EMAIL_VERIFICATION_LINK', '')
+PASSWORD_RESET_URL = os.getenv('PASSWORD_RESET_URL', '')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 
@@ -37,6 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    # mine apps
+    'kata.kata_auth',
 ]
 
 MIDDLEWARE = [
@@ -74,10 +89,7 @@ WSGI_APPLICATION = 'kata.config.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(env='DATABASE_URL')
 }
 
 

@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import include, url
 from django.urls import path
+
+api_urls = [
+    url(r'^kata-auth/', include(('kata.kata_auth.urls', 'kata-auth'), namespace='kata-auth')),
+]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),
+    url(r'^', include((api_urls, 'kata'), namespace='kata')),
 ]
