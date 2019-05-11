@@ -1,4 +1,4 @@
-"""kata URL Configuration
+"""{{project_name}} URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -18,11 +18,11 @@ from django.conf.urls import include, url
 from django.urls import path
 
 api_urls = [
-    url(r'^kata-auth/', include(('kata.kata_auth.urls', 'kata-auth'), namespace='kata-auth')),
+    url(r'^{{project_name}}-auth/', include(('{{project_name}}.{{project_name}}_auth.urls', '{{project_name}}-auth'), namespace='{{project_name}}-auth')),
 ]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    url(r'^', include((api_urls, 'kata'), namespace='kata')),
+    url(r'^', include((api_urls, '{{project_name}}'), namespace='{{project_name}}')),
 ]

@@ -60,12 +60,12 @@ class UserManager(BaseUserManager):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField('KataUser', on_delete=models.CASCADE)
+    user = models.OneToOneField('{{project_name}}User', on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=255)
     bio = models.CharField(max_length=250, null=True, blank=True)
 
 
-class KataUser(AbstractBaseUser, PermissionsMixin):
+class {{project_name}}User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     other_names = models.CharField(max_length=255, blank=True, null=True)
@@ -138,7 +138,7 @@ class KataUser(AbstractBaseUser, PermissionsMixin):
 
 
 class UserVerification(models.Model):
-    user = models.ForeignKey(KataUser, on_delete=models.CASCADE, related_name='user_verification')
+    user = models.ForeignKey({{project_name}}User, on_delete=models.CASCADE, related_name='user_verification')
     verification_key = models.CharField(max_length=40)
     created_on = models.DateTimeField(default=timezone.now)
     verified_on = models.DateTimeField(blank=True, null=True)
